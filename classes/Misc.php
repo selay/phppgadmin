@@ -489,10 +489,24 @@
 			// Get the name of the database driver we need to use.
 			// The description of the server is returned in $platform.
 			$_type = $_connection->getDriver($platform);
+			if ($_type === null){
+				$funky_type=preg_replace("/[^0-9]/", "", $_connection->conn->pgVersion)*10;
+
+			if ($funky_type>94){
+				 $_type='Postgres'.$funky_type;
+			}}
+			
+ 
+			 
 			if ($_type === null) {
+				
+
+           
 				printf($lang['strpostgresqlversionnotsupported'], $postgresqlMinVer);
 				exit;
 			}
+			 
+			//exit($platform);
 			$this->setServerInfo('platform', $platform, $server_id);
 			$this->setServerInfo('pgVersion', $_connection->conn->pgVersion, $server_id);
 
